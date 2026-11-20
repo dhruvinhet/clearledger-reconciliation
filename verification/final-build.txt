@@ -1,0 +1,13 @@
+
+> clearledger-reconciliation@1.0.0 build
+> tsc -b && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+✓ 1585 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.55 kB │ gzip:  0.36 kB
+dist/assets/index-DtlQHk9K.css   28.72 kB │ gzip:  6.88 kB
+dist/assets/index-DezaLYMJ.js   269.23 kB │ gzip: 83.40 kB
+✓ built in 6.32s

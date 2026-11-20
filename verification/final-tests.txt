@@ -1,0 +1,184 @@
+
+> clearledger-reconciliation@1.0.0 test
+> vitest run --reporter=verbose --reporter=json --outputFile.json=verification/final-tests.json
+
+
+ RUN  v5.1.1 F:/OneLab/dashboard
+
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control PAY-20261028-001 without exceptions 4ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control PAY-20261028-002 without exceptions 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control PAY-20261028-003 without exceptions 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control PAY-20261029-004 without exceptions 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control PAY-20261029-005 without exceptions 1ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control PAY-20261029-006 without exceptions 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control PAY-20261030-007 without exceptions 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control PAY-20261030-008 without exceptions 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control PAY-20261101-009 without exceptions 1ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control PAY-20261102-010 without exceptions 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches normal control RFD-20261102-001 without exceptions 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > matches zero amounts without confusing zero with a missing bank record 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > keeps an exact match precise above Number.MAX_SAFE_INTEGER 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > allows the same source ID in different source systems 0ms
+ ✓ src/engine/verification.test.ts > Normal transactions > does not match unrelated payments merely because their amounts agree 10ms
+ ✓ src/engine/verification.test.ts > Normal transactions > preserves every eligible source occurrence exactly once in reference results 1ms
+ ✓ src/engine/verification.test.ts > Cross-month settlement > explains a legitimate boundary from 2026-01-31 to 2026-02-01 1ms
+ ✓ src/engine/verification.test.ts > Cross-month settlement > explains a legitimate boundary from 2026-12-31 to 2027-01-02 0ms
+ ✓ src/engine/verification.test.ts > Cross-month settlement > explains a legitimate boundary from 2028-02-28 to 2028-03-01 0ms
+ ✓ src/engine/verification.test.ts > Cross-month settlement > is pending at October close and matched when the November receipt arrives 0ms
+ ✓ src/engine/verification.test.ts > Cross-month settlement > does not call a cross-month amount discrepancy a clean timing exception 0ms
+ ✓ src/engine/verification.test.ts > Cumulative rounding difference > detects rounding on a new batch, independently of the ten-row fixture 1ms
+ ✓ src/engine/verification.test.ts > Cumulative rounding difference > preserves monetary classifications when input rows are reordered 1ms
+ ✓ src/engine/verification.test.ts > Cumulative rounding difference > rejects a plausible total when individual fee allocations do not follow the policy 0ms
+ ✓ src/engine/verification.test.ts > Cumulative rounding difference > does not explain an incomplete settlement batch as rounding 0ms
+ ✓ src/engine/verification.test.ts > Duplicate entry > holds exact duplicates from the bank source 0ms
+ ✓ src/engine/verification.test.ts > Duplicate entry > holds exact duplicates from the platform source 1ms
+ ✓ src/engine/verification.test.ts > Duplicate entry > holds repeated references even when source IDs are different 0ms
+ ✓ src/engine/verification.test.ts > Duplicate entry > gives ambiguity precedence over an amount discrepancy 0ms
+ ✓ src/engine/verification.test.ts > Orphan refund > identifies a bank refund with no refund or parent in the platform extract 1ms
+ ✓ src/engine/verification.test.ts > Orphan refund > distinguishes a missing refund record from a missing original payment 0ms
+ ✓ src/engine/verification.test.ts > Orphan refund > matches a valid partial refund while retaining its negative sign 0ms
+ × src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > does not automatically clear a settlement before its payment: same month 11ms
+   → {"references":[{"reference":"PAY-001","status":"matched","dueOn":"2026-10-30"}],"issues":[],"platformNetMinor":"9800","bankNetMinor":"9800"}: expected false to be true // Object.is equality
+ × src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > does not automatically clear a settlement before its payment: reversed month boundary 1ms
+   → {"references":[{"reference":"PAY-001","status":"matched","dueOn":"2026-11-03"}],"issues":[{"kind":"cross_month_settlement","severity":"timing"}],"platformNetMinor":"9800","bankNetMinor":"9800"}: expected false to be true // Object.is equality
+ × src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > escalates a late cross-month settlement rather than presenting it as expected timing 1ms
+   → {"references":[{"reference":"PAY-001","status":"matched","dueOn":"2026-11-02"}],"issues":[{"kind":"cross_month_settlement","severity":"timing"}],"platformNetMinor":"9800","bankNetMinor":"9800"}: expected false to be true // Object.is equality
+ × src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > does not silently clear equal net amounts with conflicting source fees 1ms
+   → {"references":[{"reference":"PAY-001","status":"matched","dueOn":"2026-10-30"}],"issues":[],"platformNetMinor":"9800","bankNetMinor":"9800"}: expected false to be true // Object.is equality
+ × src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > flags missing refund lineage even when both refund events agree 1ms
+   → {"references":[{"reference":"REFUND-001","status":"matched","dueOn":"2026-10-30"}],"issues":[],"platformNetMinor":"-2000","bankNetMinor":"-2000"}: expected false to be true // Object.is equality
+ × src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > rejects numeric money at the public engine boundary before BigInt conversion 2ms
+   → Intended 9007199254740993 paise was already rounded to 9007199254740992; numeric input must be rejected.: expected [Function] to throw an error
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > identifies exactly the four planted case types 24ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > matches all normal controls, including the valid partial refund 1ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > classifies cross-month settlement as timing with zero monetary impact 2ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > groups five one-paise differences into a verified rounding batch 1ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > does not label an arbitrary small mismatch as rounding 1ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > retains both duplicate occurrences and does not automatically clear them 1ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > does not confuse an orphan refund with a normal negative event 1ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > keeps absent settlements pending through their due date 0ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > flags reused source IDs even when the references differ 1ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > never matches identical amounts with unrelated references 0ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > uses exact money well above JavaScript’s safe integer limit 10ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > rejects invalid direct inputs and mixed currencies 1ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > does not mutate source arrays or objects 1ms
+ ✓ src/engine/reconcile.test.ts > fixture reconciliation, independently of React > returns an empty, balanced report when nothing is eligible 0ms
+ ✓ src/engine/reconcile.test.ts > CSV input contract > handles BOM, CRLF, quoted commas and escaped quotes 0ms
+ ✓ src/engine/reconcile.test.ts > CSV input contract > rejects malformed CSV, dates, refunds, and fractional minor units 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > does not automatically clear a settlement before its payment: same month
+AssertionError: {"references":[{"reference":"PAY-001","status":"matched","dueOn":"2026-10-30"}],"issues":[],"platformNetMinor":"9800","bankNetMinor":"9800"}: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/verification.test.ts:200:88
+    198|   ])('does not automatically clear a settlement before its payment: %s…
+    199|     const report = run([payment({ recordedOn })], [settlement({ settle…
+    200|     expect(report.issues.some(issue => issue.severity === 'review'), e…
+       |                                                                                        ^
+    201|   });
+    202|   it('escalates a late cross-month settlement rather than presenting i…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > does not automatically clear a settlement before its payment: reversed month boundary
+AssertionError: {"references":[{"reference":"PAY-001","status":"matched","dueOn":"2026-11-03"}],"issues":[{"kind":"cross_month_settlement","severity":"timing"}],"platformNetMinor":"9800","bankNetMinor":"9800"}: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/verification.test.ts:200:88
+    198|   ])('does not automatically clear a settlement before its payment: %s…
+    199|     const report = run([payment({ recordedOn })], [settlement({ settle…
+    200|     expect(report.issues.some(issue => issue.severity === 'review'), e…
+       |                                                                                        ^
+    201|   });
+    202|   it('escalates a late cross-month settlement rather than presenting i…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > escalates a late cross-month settlement rather than presenting it as expected timing
+AssertionError: {"references":[{"reference":"PAY-001","status":"matched","dueOn":"2026-11-02"}],"issues":[{"kind":"cross_month_settlement","severity":"timing"}],"platformNetMinor":"9800","bankNetMinor":"9800"}: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/verification.test.ts:205:88
+    203|     const report = run([payment({ recordedOn: '2026-10-31' })], [settl…
+    204|     expect(report.records[0].dueOn).toBe('2026-11-02');
+    205|     expect(report.issues.some(issue => issue.severity === 'review'), e…
+       |                                                                                        ^
+    206|   });
+    207|   it('does not silently clear equal net amounts with conflicting sourc…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > does not silently clear equal net amounts with conflicting source fees
+AssertionError: {"references":[{"reference":"PAY-001","status":"matched","dueOn":"2026-10-30"}],"issues":[],"platformNetMinor":"9800","bankNetMinor":"9800"}: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/verification.test.ts:209:88
+    207|   it('does not silently clear equal net amounts with conflicting sourc…
+    208|     const report = run([payment()], [settlement({ feeMinor: '999' })]);
+    209|     expect(report.issues.some(issue => issue.severity === 'review'), e…
+       |                                                                                        ^
+    210|   });
+    211|   it('flags missing refund lineage even when both refund events agree'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > flags missing refund lineage even when both refund events agree
+AssertionError: {"references":[{"reference":"REFUND-001","status":"matched","dueOn":"2026-10-30"}],"issues":[],"platformNetMinor":"-2000","bankNetMinor":"-2000"}: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/engine/verification.test.ts:215:91
+    213|     const b = settlement({ type: 'refund', reference: p.reference, par…
+    214|     const report = run([p], [b]);
+    215|     expect(report.issues.some(issue => issue.kind === 'orphan_refund')…
+       |                                                                                           ^
+    216|   });
+    217|   it('rejects numeric money at the public engine boundary before BigIn…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/engine/verification.test.ts > Boundary weaknesses — expected safeguards > rejects numeric money at the public engine boundary before BigInt conversion
+AssertionError: Intended 9007199254740993 paise was already rounded to 9007199254740992; numeric input must be rejected.: expected [Function] to throw an error
+ ❯ src/engine/verification.test.ts:222:116
+    220|     const unsafe = Number('9007199254740993') as unknown as string;
+    221|     expect(() => run([payment({ amountMinor: unsafe, feeMinor: '0' })]…
+    222|       `Intended 9007199254740993 paise was already rounded to ${String…
+       |                                                                                                                    ^
+    223|   });
+    224| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  6 failed | 48 passed (54)
+   Start at  18:10:20
+   Duration  907ms (transform 41%, import 41%, tests 11%, worker 6%)
+
+JSON report written to F:/OneLab/dashboard/verification/final-tests.json
