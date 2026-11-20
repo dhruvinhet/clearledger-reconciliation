@@ -1,0 +1,138 @@
+{
+  "synthetic": true,
+  "asOf": "2026-11-05",
+  "reportingMonth": "2026-10",
+  "timezone": "Asia/Kolkata",
+  "currency": "INR",
+  "minorUnitsPerMajorUnit": 100,
+  "settlementPolicy": {
+    "maxDays": 2,
+    "dayBasis": "calendar",
+    "dueDateInclusive": true
+  },
+  "feePolicy": {
+    "paymentFeeBasisPoints": 200,
+    "platformRounding": "HALF_UP per payment",
+    "bankRounding": "HALF_UP once per batch, then largest-remainder allocation with reference-ascending tie break",
+    "refunds": "Signed negative amounts, zero new fee, no original fee returned"
+  },
+  "coverage": {
+    "platform": {
+      "from": "2026-10-28",
+      "through": "2026-11-02",
+      "rows": 23
+    },
+    "bank": {
+      "from": "2026-10-29",
+      "through": "2026-11-04",
+      "rows": 25
+    }
+  },
+  "controlReferences": [
+    "PAY-20261028-001",
+    "PAY-20261028-002",
+    "PAY-20261028-003",
+    "PAY-20261029-004",
+    "PAY-20261029-005",
+    "PAY-20261029-006",
+    "PAY-20261030-007",
+    "PAY-20261030-008",
+    "PAY-20261101-009",
+    "PAY-20261102-010",
+    "RFD-20261102-001"
+  ],
+  "summary": {
+    "normalControlReferences": 11,
+    "anomalyTypes": 4,
+    "crossMonthReferences": 1,
+    "roundingBatches": 1,
+    "roundingAffectedReferences": 5,
+    "duplicateGroups": 1,
+    "duplicateExcessRows": 1,
+    "orphanRefunds": 1
+  },
+  "anomalies": [
+    {
+      "type": "cross_month_settlement",
+      "reference": "PAY-20261031-012",
+      "platformIds": [
+        "PT-012"
+      ],
+      "bankIds": [
+        "BS-012"
+      ],
+      "recordedOn": "2026-10-31",
+      "settledOn": "2026-11-02",
+      "lagCalendarDays": 2,
+      "grossMinor": "275000",
+      "feeMinor": "5500",
+      "netMinor": "269500",
+      "amountDifferenceMinor": "0",
+      "expectedAtOctoberClose": "pending_settlement",
+      "expectedAsOf": "matched_with_cross_month_timing_flag",
+      "explanation": "October gross revenue of INR 2750.00 produces INR 2695.00 cash in November; the INR 55.00 fee is explicit. This is a timing exception, not a missing payment."
+    },
+    {
+      "type": "cumulative_rounding_difference",
+      "batchId": "SET-20261031-R01",
+      "references": [
+        "PAY-20261030-R001",
+        "PAY-20261030-R002",
+        "PAY-20261030-R003",
+        "PAY-20261030-R004",
+        "PAY-20261030-R005",
+        "PAY-20261030-R006",
+        "PAY-20261030-R007",
+        "PAY-20261030-R008",
+        "PAY-20261030-R009",
+        "PAY-20261030-R010"
+      ],
+      "affectedReferences": [
+        "PAY-20261030-R006",
+        "PAY-20261030-R007",
+        "PAY-20261030-R008",
+        "PAY-20261030-R009",
+        "PAY-20261030-R010"
+      ],
+      "transactionCount": 10,
+      "grossMinor": "212750",
+      "exactAggregateFeeMinor": "4255",
+      "platformFeeTotalMinor": "4260",
+      "bankFeeTotalMinor": "4255",
+      "expectedPlatformNetMinor": "208490",
+      "actualBankNetMinor": "208495",
+      "bankMinusPlatformNetMinor": "5",
+      "affectedRowDifferenceMinor": "1",
+      "explanation": "Ten exact 2% fees each end in half a paise. Platform rounds all ten up; bank rounds their sum once and allocates five residual paise. Five rows differ by one paise, totaling INR 0.05."
+    },
+    {
+      "type": "duplicate_entry",
+      "reference": "PAY-20261029-013",
+      "source": "bank",
+      "duplicateId": "BS-013",
+      "occurrenceCount": 2,
+      "excessRowCount": 1,
+      "platformCount": 1,
+      "grossMinor": "159900",
+      "feeMinor": "3198",
+      "netMinor": "156702",
+      "duplicateInflationMinor": "156702",
+      "expected": "duplicate_or_ambiguous",
+      "explanation": "The bank export repeats an identical row. Keep both source occurrences as evidence and prevent the same payment from matching twice."
+    },
+    {
+      "type": "orphan_refund",
+      "reference": "RFD-20261102-002",
+      "bankIds": [
+        "BS-014"
+      ],
+      "parentReference": "PAY-20261015-999",
+      "amountMinor": "-149900",
+      "feeMinor": "0",
+      "platformRefundPresent": false,
+      "parentPaymentPresent": false,
+      "expected": "orphan_refund",
+      "explanation": "Bank debit of INR 1499.00 has no platform refund or parent payment in the supplied file. It is an orphan within this coverage; an older parent may exist outside the extract."
+    }
+  ]
+}
